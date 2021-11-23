@@ -40,6 +40,7 @@ def yokoi(lena):
     m=len(lena)
     n=len(lena[0])
     arr=[[0]*(m//8) for i in range(n//8)]
+    res=[[0]*(m//8) for i in range(n//8)]
     for i in range(m//8):
         for j in range(n//8):
             arr[i][j] = lena[8*i][8*j]
@@ -53,10 +54,22 @@ def yokoi(lena):
             a2=h(arr[i+1][j+1],arr[i][j+1],arr[i][j],arr[i+1][j])
             a3=h(arr[i+1][j+1],arr[i+1][j],arr[i+2][j],arr[i+2][j+1])
             a4=h(arr[i+1][j+1],arr[i+2][j+1],arr[i+2][j+2],arr[i+1][j+2])
+            
             tmp=f(a1,a2,a3,a4)
-            if tmp and arr[i][j]:
-                print(f(a1,a2,a3,a4),end='')
+            if tmp and arr[i+1][j+1]:
+                print(tmp,end='')
+                res[i][j]=tmp
             else:
                 print(' ',end='')
         print('')
-yokoi(lena_arr//128)
+    return res
+    
+res=yokoi(lena_arr//128)
+
+#draw a great image
+plt.figure(figsize=(64,64))
+for i in range(64):
+    for j in range(64):
+        if res[i][j]:
+            plt.text((j+3)/70,(67-i)/70,str(res[i][j]),fontsize=48)
+plt.show()
